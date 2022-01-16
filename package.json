@@ -1,0 +1,26 @@
+{
+  "name": "worker-workflow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sneh1999/worker-workflow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sneh1999/worker-workflow/issues"
+  },
+  "homepage": "https://github.com/Sneh1999/worker-workflow#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^10.0.0",
+    "press-any-key": "^0.1.1"
+  }
+}
