@@ -3,19 +3,7 @@ const axios = require("axios");
 const pressAnyKey = require("press-any-key");
 const fs = require("fs");
 require("dotenv").config({ path: ".env" });
-// Company Name
-// Position
-// Salary
-// Year
-// Term
-// Interview Experience
-// Tell us more about interview
-// Job Experience
-// Tell us moe about job experience
-// Did you have a mentor
-// Did you work on a project
 
-const reviews = [];
 const companyNotFound = [];
 const findCompanyAPI = async (name) => {
   const companies = await axios.get(
@@ -27,18 +15,22 @@ const findCompanyAPI = async (name) => {
 const findCompany = async (companyName) => {
   let company = await findCompanyAPI(companyName);
   const params = new URLSearchParams([["name", company.name]]);
-  const res = await axios.get("http://localhost:3000/api/getCompanyName", {
-    params,
-  });
+  const res = await axios.get(
+    "http://localhost:3000/api/company/getCompanyName",
+    {
+      params,
+    }
+  );
   return res.data.companies[0].id;
 };
 
-// const addRoles = async (companyId, title_name) => {
-//   await axios.post("http://localhost:3000/api/role/addRole", {
-//     title_name: title_name,
-//     company_id: companyId,
-//   });
-// };
+const addRoles = async (companyId, title_name) => {
+  console.log("Adding role");
+  await axios.post("http://localhost:3000/api/role/addRole", {
+    title_name: title_name,
+    company_id: companyId,
+  });
+};
 
 const getRole = async (position, company_id) => {
   const params = new URLSearchParams([
@@ -54,16 +46,17 @@ const getRole = async (position, company_id) => {
 const addReview = async (company) => {
   await axios.post("http://localhost:3000/api/review/addReview", company);
 };
+
 const processCompany = async (companies) => {
   for (let i = 0; i < companies.length; i++) {
     try {
       const companyId = await findCompany(companies[i].name);
-      // await addRoles(companyId, companies[i].position);
+      await addRoles(companyId, companies[i].position);
       const roleId = await getRole(companies[i].position, companyId);
       companies[i].role_id = parseInt(roleId);
-      //   await pressAnyKey();
       await addReview(companies[i]);
     } catch (err) {
+      console.log(err);
       if (err.response && err.response.status != 500) {
         console.error(err);
         console.log("i", i);
